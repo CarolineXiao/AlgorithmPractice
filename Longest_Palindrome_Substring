@@ -1,28 +1,24 @@
-def longestPalindrome(s):
-    if len(s) <= 1:
-        return s
-
-    start = 0
-    end = 0
-
-    for i in range(len(s)):
-        max_length_odd = get_max_length(s, i, i)
-        max_length_even = get_max_length(s, i, i + 1)
-        max_length = max(max_length_even, max_length_odd)
-
-        if max_length > end - start:
-            start = i - (max_length - 1) // 2
-            end = i + max_length // 2
-    return s[start:end+1]
-
-
-def get_max_length(s, left, right):
-    while (left >= 0 and right < len(s) and s[left] == s[right]):
-        left -= 1
-        right += 1
-    return right - left - 1
-
-
-if __name__ == "__main__":
-    r = longestPalindrome("xyzzyabc")
-    print(r)
+class Solution:
+    """
+    @param s: input string
+    @return: the longest palindromic substring
+    """
+    def longestPalindrome(self, s):
+        # write your code here
+        result = ""
+        for i in range (0, len(s)):
+            even = self.getLongestPalindrome(s, i, i)
+            odd = self.getLongestPalindrome(s, i, i+1)
+            if len(even) > len(odd):
+                longest = even
+            else:
+                longest = odd
+            if len(longest) > len(result):
+                result = longest
+        return result
+        
+    def getLongestPalindrome(self, s, left, right):
+        while left >= 0 and right < len(s) and s[left] == s[right]:
+            left = left - 1
+            right = right + 1
+        return s[left+1:right]  
