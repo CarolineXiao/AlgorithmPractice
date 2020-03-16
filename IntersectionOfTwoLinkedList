@@ -1,0 +1,36 @@
+"""
+Definition of ListNode
+class ListNode(object):
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+"""
+
+class Solution:
+    """
+    @param headA: the first list
+    @param headB: the second list
+    @return: a ListNode
+    """
+    def getIntersectionNode(self, headA, headB):
+        if headA == None or headB == None:
+            return None
+        # write your code here
+        lastNode = headA
+        while lastNode.next != None:
+            lastNode = lastNode.next
+        lastNode.next = headB
+        
+        slow = headA
+        fast = headA.next
+        while slow != fast:
+            if fast == None or fast.next == None:
+                return None
+            slow = slow.next
+            fast = fast.next.next
+        
+        while headA != fast.next:
+            headA = headA.next
+            fast = fast.next
+        return headA
+        
