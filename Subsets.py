@@ -5,6 +5,7 @@ class Solution:
     """
     def subsets(self, nums):
         # write your code here
+        nums.sort()
         subset = [None] * len(nums)
         result = []
 
