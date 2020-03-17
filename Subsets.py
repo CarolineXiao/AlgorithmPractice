@@ -5,18 +5,22 @@ class Solution:
     """
     def subsets(self, nums):
         # write your code here
-        nums.sort()
-        subset = [None] * len(nums)
-        result = []
-
-        self.helper(nums, subset, result, 0)
-        return result
+        if nums == None:
+            return []
         
-    def helper(self, nums, subset, result, i):
-        if i == len(nums):
-            result.append(list(filter(lambda x: x is not None, subset)))
-        else:    
-            subset[i] = None
-            self.helper(nums, subset, result, i+1)
-            subset[i] = nums[i]
-            self.helper(nums, subset, result, i+1)
+        nums.sort()
+        result = []
+        subset = []
+        self.dfs(nums, subset, result, 0)
+        return result
+    
+    def dfs(self, nums, subset, result, index):
+        if index == len(nums):
+            result.append(list(subset))
+            return
+            
+        
+        subset.append(nums[index])
+        self.dfs(nums, subset, result, index+1)
+        subset.remove(nums[index])
+        self.dfs(nums, subset, result, index+1)
