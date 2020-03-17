@@ -10,7 +10,7 @@ class Solution:
         
         results = []
         permutation = []
-        visited = [False] * len(nums)
+        visited = [0] * len(nums)
         self.dfs(nums, permutation, results, visited)
         return results
         
@@ -20,10 +20,11 @@ class Solution:
             return
         
         for i in range(len(nums)):
-            if not visited[i]:
-                permutation.append(nums[i])
-                visited[i] = True
-                self.dfs(nums, permutation, results, visited)
-                visited[i] = False
-                permutation.remove(nums[i])
+            if visited[i]:
+                continue
+            permutation.append(nums[i])
+            visited[i] = 1
+            self.dfs(nums, permutation, results, visited)
+            visited[i] = 0
+            permutation.pop()
         
