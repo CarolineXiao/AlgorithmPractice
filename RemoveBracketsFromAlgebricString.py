@@ -34,14 +34,17 @@ def convert(equation):
     for i in range(len(equation)):
         if i > 0 and equation[i] in sign_set and equation[i-1] in sign_set:
                 equation[i-1] = ''
+                
     for i in range(len(equation)):
         if equation[i] == '':
             continue
+        if equation[i] != '+':
+            break
         if equation[i] == '+':
             equation[i] = ''
             break
     
     return ''.join(equation)
     
-print(convert("-(-(-(-(-a))))"))               
+print(convert("a-(b-c-(d+e))-f"))               
     
