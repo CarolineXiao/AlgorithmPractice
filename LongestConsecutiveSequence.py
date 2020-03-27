@@ -1,33 +1,49 @@
-import heapq
 class Solution:
     """
-    @param num: A list of integers
-    @return: An integer
+    @param nums: An integer array
+    @return: The length of LIS (longest increasing subsequence)
     """
-    def longestConsecutive(self, num):
-        if num == []:
+    result = 0
+    def longestIncreasingSubsequence(self, nums):
+        # 1. dfs
+        '''
+        if nums == []:
             return 0
-            
-        result = 0    
-        hash_set = set()
-        for n in num:
-            hash_set.add(n)
-            
-        for n in num:
-            if n not in hash_set:
-                continue
-            consecutive = 1
-            left = n - 1
-            right = n + 1
-            while left in hash_set:
-                hash_set.remove(left)
-                consecutive += 1
-                left -= 1
-            while right in hash_set:
-                hash_set.remove(right)
-                consecutive += 1
-                right += 1
-            if consecutive > result:
-                result = consecutive
-        return result
-            
+        
+        #result = 0
+        cur_result = []
+        self.helper(nums, 0, cur_result)
+        return self.result
+        
+    def helper(self, nums, startIndex, cur_result):
+        if startIndex == len(nums):
+            if len(cur_result) > self.result:
+                self.result = len(cur_result)
+            return
+        
+        for i in range(startIndex, len(nums)):
+            if cur_result != [] and nums[i] > cur_result[-1]:
+                cur_result.append(nums[i])
+                self.helper(nums, i+1, cur_result)
+                cur_result.pop()
+                self.helper(nums, i+1, cur_result)
+            elif cur_result == []:
+                cur_result.append(nums[i])
+                self.helper(nums, i+1, cur_result)
+                cur_result.pop()
+                self.helper(nums, i+1, cur_result)
+                '''
+        # 2. dp (n^2)
+        if nums == []:
+            return 0
+        
+        # f[i] -> the longest increasing subsequence in nums[0:i+1]  
+        f = [1] * len(nums)
+        
+        for i in range(1, len(nums)):
+            for j in range(i):
+                if nums[j] < nums[i]:
+                    f[i] = max(f[i], f[j] + 1)
+        
+        return max(f)
+             
