@@ -15,31 +15,32 @@ class Solution:
     @return: Return the LCA of the two nodes.
     """
     def lowestCommonAncestor3(self, root, A, B):
-        # write your code here
-        node, a_exist, b_exist = self.helper(root, A, B)
-        if a_exist and b_exist:
-            return node
+        res, a_exists, b_exists = self.helper(root, A, B)
+        if a_exists and b_exists:
+            return res
         return None
+        
         
     def helper(self, root, A, B):
         if root == None:
             return None, False, False
         
-        left, left_a_exist, left_b_exist = self.helper(root.left, A, B)
-        right, right_a_exist, right_b_exist = self.helper(root.right, A, B)
+        left, a_exists_left, b_exists_left = self.helper(root.left, A, B)
+        right, a_exists_right, b_exists_right = self.helper(root.right, A, B)
         
-        a_exist = left_a_exist or right_a_exist or root == A
-        b_exist = left_b_exist or right_b_exist or root == B
-        print(a_exist, b_exist)
+        a_exists = a_exists_left or a_exists_right or root == A
+        b_exists = b_exists_left or b_exists_right or root == B
         
         if root == A or root == B:
-            return root, a_exist, b_exist
+            return root, a_exists, b_exists
+            
         if left != None and right != None:
-            return root, a_exist, b_exist
+            return root, a_exists, b_exists
         if left != None:
-            return left, a_exist, b_exist
+            return left, a_exists, b_exists
         if right != None:
-            return right, a_exist, b_exist
-        if left == None and right == None:
-            return None, a_exist, b_exist
+            return right, a_exists, b_exists
+        
+        return None, a_exists, b_exists
+        
         
