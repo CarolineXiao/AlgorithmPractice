@@ -6,12 +6,13 @@ class Solution:
     @return: the top k largest numbers in array
     """
     def topk(self, nums, k):
-        if len(nums) < k:
-            return nums
+        if len(nums) <= k:
+            return sorted(nums, reverse=True)
+        
         heap = []
-        for n in nums:
-            heapq.heappush(heap, n)
+        for i in range(len(nums)):
+            heapq.heappush(heap, nums[i])
             if len(heap) > k:
                 heapq.heappop(heap)
-    
+        
         return sorted(heap, reverse=True)
