@@ -5,24 +5,26 @@ class Solution:
     @return: A list of lists of integers
     """
     def combinationSum(self, candidates, target):
-        if candidates == None:
-            return []
+        if candidates == []:
+            return [[]]
+        
         candidates.sort()
+        combination = []
+        curSum = 0
         results = []
-        sumset = []
-        self.dfs(candidates, sumset, results, 0, target)
+        self.getCombinations(candidates, target, combination, results, curSum, 0)
         return results
-        
-    def dfs(self, candidates, sumset, results, startIndex, target):
-        if target < 0:
+    
+    def getCombinations(self, candidates, target, combination, results, curSum, start):
+        if curSum == target:
+            if combination not in results:
+                results.append(list(combination))
             return
-        if target == 0:
-            results.append(list(sumset))
-            return
-        for i in range(startIndex, len(candidates)):
-            if i > 0 and candidates[i] == candidates[i-1] and i > startIndex:
-                continue
-            sumset.append(candidates[i])
-            self.dfs(candidates, sumset, results, i, target-candidates[i])
-            sumset.pop()
         
+        if curSum > target:
+            return
+        
+        for i in range(start, len(candidates)):
+            combination.append(candidates[i])
+            self.getCombinations(candidates, target, combination, results, curSum+candidates[i], i)
+            combination.pop()
